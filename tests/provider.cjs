@@ -1,0 +1,36 @@
+const assert = require('node:assert/strict')
+const { SyntheticMailProvider, states } = require('../js/mail-provider.js')
+;(async () => {
+    const provider = new SyntheticMailProvider({ delay: 0, slowDelay: 0 })
+    const accounts = await provider.listAccounts()
+    assert.equal(accounts.length, 2)
+    assert.equal(accounts[0].unread, 8)
+    assert.equal((await provider.listMailboxes('studio'))[0].unread, 8)
+    const page = await provider.listMessages({ mailboxId: 'studio-inbox', limit: 8 })
+    assert.equal(new Set(page.items.map(m => `${m.unread},${m.important},${m.favorite}`)).size, 8)
+    assert.equal(page.items[0].unread, false)
+    assert.equal(page.items[1].unread, true)
+    assert.equal(page.items[2].important, true)
+    assert.equal(page.items[4].favorite, true)
+    assert.equal(states({ flags: { seen: true, flagged: false, important: true }, tags: [] }).important, false)
+    for (const filter of ['unread', 'important', 'favorite']) {
+        const filtered = await provider.listMessages({ mailboxId: 'studio-inbox', filter, limit: 100 })
+        assert.equal(filtered.items.length, 8)
+        assert.ok(filtered.items.every(m => m[filter]))
+    }
+    const ids = []; let cursor = null
+    do {
+        const result = await provider.listMessages({ mailboxId: 'studio-inbox', cursor, limit: 6 })
+        ids.push(...result.items.map(m => m.id)); cursor = result.nextCursor
+    } while (cursor !== null)
+    assert.equal(ids.length, 16); assert.equal(new Set(ids).size, 16)
+    assert.deepEqual(await provider.listMessages({ mailboxId: 'empty' }), { items: [], nextCursor: null })
+    assert.equal((await provider.listMessages({ mailboxId: 'studio-projects', filter: 'unread' })).items.length, 0)
+    assert.equal((await provider.listMessages({ mailboxId: 'slow' })).items.length, 1)
+    await assert.rejects(provider.listMessages({ mailboxId: 'error' }))
+    assert.equal((await provider.listMessages({ mailboxId: 'error' })).items.length, 1)
+    await assert.rejects(provider.listMessages({ mailboxId: 'studio-inbox', cursor: '-1' }))
+    assert.ok(page.items[6].sender.includes('<script>'))
+    assert.ok(page.items[6].subject.includes('<img'))
+    console.log('Provider: 8 state combinations, tag semantics, counts, filters, pagination, empty/loading/error passed')
+})().catch(error => { console.error(error); process.exitCode = 1 })

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>sixd_mail_pro</id>
+    <name>6D Mail Pro</name>
+    <summary>Experimental foundation for a clearer mail workspace</summary>
+    <description>Development preview of an independent mail productivity app. This development prototype provides synthetic accounts, folders, read-only message lists, filters and pagination. No real mailbox access or message actions are implemented.</description>
+    <version>0.1.0-dev.1</version>
+    <licence>agpl</licence>
+    <author mail="Maalig@pmpksamy.com" homepage="https://pmpksamy.com/">IAMPMPKSAMY</author>
+    <namespace>SixdMailPro</namespace>
+    <category>social</category>
+    <website>https://pmpksamy.com/</website>
+    <bugs>https://github.com/iampmpksamy/NextCloud_6D_Mail_Pro/issues</bugs>
+    <repository type="git">https://github.com/iampmpksamy/NextCloud_6D_Mail_Pro.git</repository>
+    <dependencies>
+        <php min-version="8.3" max-version="8.3"/>
+        <nextcloud min-version="33" max-version="33"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>6D Mail Pro</name>
+            <route>sixd_mail_pro.page.index</route>
+            <icon>app.svg</icon>
+            <order>11</order>
+        </navigation>
+    </navigations>
+</info>

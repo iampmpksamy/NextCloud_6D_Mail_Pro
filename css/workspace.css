@@ -1,0 +1,90 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+#sixd-mail-pro {
+    --sixd-accent: var(--color-primary-element, #00679e);
+    --sixd-text: var(--color-main-text, #202b3c);
+    --sixd-bg: var(--color-main-background, #fff);
+    --sixd-soft: var(--color-background-hover, #f1f5f9);
+    --sixd-border: var(--color-border, #d9e0e8);
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    overflow: auto;
+    color: var(--sixd-text);
+    background: var(--sixd-bg);
+    font-size: 14px;
+}
+#sixd-mail-pro * { box-sizing: border-box; }
+#sixd-mail-pro [hidden] { display: none !important; }
+#sixd-mail-pro h2, #sixd-mail-pro h3, #sixd-mail-pro p { margin: 0; }
+#sixd-mail-pro button, #sixd-mail-pro a { font: inherit; }
+#sixd-mail-pro button { color: inherit; cursor: pointer; }
+#sixd-mail-pro button:disabled { opacity: .5; cursor: default; }
+#sixd-mail-pro button:focus-visible, #sixd-mail-pro a:focus-visible { outline: 3px solid var(--sixd-accent); outline-offset: -3px; }
+#sixd-mail-pro .sixd-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 22px 28px; border-bottom: 1px solid var(--sixd-border); }
+#sixd-mail-pro .sixd-header h2 { font-size: 26px; line-height: 1.4; font-weight: 700; }
+#sixd-mail-pro .sixd-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .08em; line-height: 1.6; overflow-wrap: anywhere; }
+#sixd-mail-pro .sixd-workspace { display: grid; grid-template-columns: 220px minmax(320px, 1.2fr) minmax(240px, 1fr); min-height: 680px; }
+#sixd-mail-pro .sixd-sidebar { padding: 24px 12px; border-inline-end: 1px solid var(--sixd-border); background: var(--sixd-soft); }
+#sixd-mail-pro .sixd-sidebar > h2 { padding-inline: 10px; font-size: 16px; font-weight: 700; }
+#sixd-mail-pro .sixd-account { margin-top: 28px; }
+#sixd-mail-pro .sixd-account h3 { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-inline: 10px; font-size: 14px; font-weight: 700; }
+#sixd-mail-pro .sixd-account__address { padding: 4px 10px 12px; font-size: 11px; overflow-wrap: anywhere; }
+#sixd-mail-pro .sixd-count { display: inline-flex; justify-content: center; align-items: center; min-width: 24px; padding: 2px 6px; border-radius: 6px; font-size: 12px; font-weight: 700; background: var(--sixd-bg); }
+#sixd-mail-pro .sixd-folder { display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%; min-height: 42px; margin: 3px 0; padding: 6px 10px; border: 1px solid transparent; border-radius: 8px; background: transparent; text-align: start; }
+#sixd-mail-pro .sixd-folder[aria-current="true"] { border-color: var(--sixd-accent); background: var(--sixd-bg); font-weight: 700; }
+#sixd-mail-pro .sixd-sidebar__note { padding: 28px 10px 0; line-height: 1.6; font-size: 12px; }
+#sixd-mail-pro .sixd-list { min-width: 0; border-inline-end: 1px solid var(--sixd-border); }
+#sixd-mail-pro .sixd-list__header { padding: 24px 20px 14px; }
+#sixd-mail-pro .sixd-list__header h2 { font-size: 19px; font-weight: 700; overflow-wrap: anywhere; }
+#sixd-mail-pro .sixd-filters { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+#sixd-mail-pro .sixd-filters button { min-height: 38px; margin: 0; padding: 6px 12px; border: 1px solid var(--sixd-border); border-radius: 18px; background: var(--sixd-bg); }
+#sixd-mail-pro .sixd-filters button[aria-pressed="true"] { background: var(--sixd-accent); color: var(--color-primary-element-text, #fff); border-color: var(--sixd-accent); font-weight: 700; }
+#sixd-mail-pro .sixd-list__caption { margin-top: 12px; font-size: 11px; }
+#sixd-mail-pro .sixd-feedback { padding: 10px 20px; border-block: 1px solid var(--sixd-border); font-size: 12px; line-height: 1.6; }
+#sixd-mail-pro .sixd-feedback button { min-height: 40px; margin-top: 8px; }
+#sixd-mail-pro .sixd-messages { margin: 0; padding: 0; list-style: none; }
+#sixd-mail-pro .sixd-row { display: block; width: 100%; max-width: none; height: auto; margin: 0; padding: 16px 18px; border: 0; border-bottom: 1px solid var(--sixd-border); border-inline-start: 4px solid transparent; border-radius: 0; background: var(--sixd-bg); color: var(--sixd-text); text-align: start; line-height: 1.5; white-space: normal; }
+#sixd-mail-pro .sixd-row--unread { border-inline-start-color: var(--sixd-accent); background: var(--sixd-soft); background: color-mix(in srgb, var(--sixd-accent) 7%, var(--sixd-bg)); }
+#sixd-mail-pro .sixd-row:hover { box-shadow: inset 0 0 0 1px var(--sixd-accent); }
+#sixd-mail-pro .sixd-row[aria-pressed="true"] { outline: 2px solid var(--sixd-accent); outline-offset: -2px; }
+#sixd-mail-pro .sixd-row__top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+#sixd-mail-pro .sixd-row__sender { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 400; }
+#sixd-mail-pro .sixd-row__time { flex: 0 0 auto; font-size: 11px; font-weight: 400; }
+#sixd-mail-pro .sixd-row__subject { display: block; margin-top: 4px; overflow-wrap: anywhere; font-weight: 400; }
+#sixd-mail-pro .sixd-row--unread .sixd-row__sender, #sixd-mail-pro .sixd-row--unread .sixd-row__subject, #sixd-mail-pro .sixd-row--unread .sixd-row__time { font-weight: 750; }
+#sixd-mail-pro .sixd-row__preview { display: block; margin-top: 4px; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#sixd-mail-pro .sixd-row__badges { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 8px; font-size: 11px; }
+#sixd-mail-pro .sixd-unread-label { font-weight: 700; }
+#sixd-mail-pro .sixd-unread-dot { margin-inline-end: 5px; color: var(--sixd-accent); }
+#sixd-mail-pro .sixd-badge { padding: 1px 6px; border: 1px solid var(--sixd-border); border-radius: 5px; }
+#sixd-mail-pro .sixd-pagination { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px; }
+#sixd-mail-pro .sixd-pagination button { min-height: 40px; padding: 6px 14px; border: 1px solid var(--sixd-border); border-radius: 8px; background: var(--sixd-bg); }
+#sixd-mail-pro .sixd-reading { min-width: 0; padding: 40px 28px; display: flex; align-items: flex-start; justify-content: center; background: var(--sixd-soft); }
+#sixd-mail-pro .sixd-reading__content { max-width: 420px; margin-top: 70px; text-align: center; overflow-wrap: anywhere; }
+#sixd-mail-pro .sixd-reading__icon { display: inline-block; font-size: 48px; margin-bottom: 20px; }
+#sixd-mail-pro .sixd-reading h2 { font-size: 22px; font-weight: 650; line-height: 1.4; }
+#sixd-mail-pro .sixd-reading p { margin-block: 16px; line-height: 1.7; }
+#sixd-mail-pro .sixd-mail-link { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 16px; border: 1px solid var(--sixd-border); border-radius: 8px; background: var(--sixd-bg); color: var(--sixd-text); text-decoration: underline; font-weight: 600; }
+#sixd-mail-pro .sixd-hint { font-size: 12px; }
+@media (max-width: 1150px) {
+    #sixd-mail-pro .sixd-workspace { grid-template-columns: 200px minmax(0, 1fr); }
+    #sixd-mail-pro .sixd-reading { grid-column: 1 / -1; border-top: 1px solid var(--sixd-border); }
+    #sixd-mail-pro .sixd-reading__content { margin-top: 0; }
+}
+@media (max-width: 640px) {
+    #sixd-mail-pro .sixd-header { padding: 18px; display: block; }
+    #sixd-mail-pro .sixd-header > p { margin-top: 8px; }
+    #sixd-mail-pro .sixd-workspace { display: block; }
+    #sixd-mail-pro .sixd-sidebar { padding: 16px; border-bottom: 1px solid var(--sixd-border); }
+    #sixd-mail-pro [data-ui="accounts"] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    #sixd-mail-pro .sixd-account { margin-top: 18px; }
+    #sixd-mail-pro .sixd-account h3 { flex-wrap: wrap; }
+    #sixd-mail-pro .sixd-row__top { flex-wrap: wrap; gap: 4px; }
+    #sixd-mail-pro .sixd-row__sender { white-space: normal; overflow-wrap: anywhere; }
+    #sixd-mail-pro .sixd-row__time { margin-inline-start: auto; }
+    #sixd-mail-pro .sixd-sidebar__note { padding-top: 14px; }
+}
+@media (forced-colors: active) {
+    #sixd-mail-pro .sixd-row--unread { border-inline-start-color: Highlight; }
+    #sixd-mail-pro .sixd-row[aria-pressed="true"] { outline-color: Highlight; }
+}
