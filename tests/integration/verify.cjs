@@ -44,7 +44,9 @@ const fetchAs = user => (url, config) => {
         const empty = boxes.find(b => b.name === 'Empty')
         assert.deepEqual(await provider.listMessages({ mailboxId: empty.id }), { items: [], nextCursor: null })
     }
-    const boxes = await provider.listMailboxes(accounts[0].id)
+    const studio = accounts.find(a => a.address === 'studio@example.invalid')
+    assert.ok(studio, 'Conversation fixture account must exist')
+    const boxes = await provider.listMailboxes(studio.id)
     const conversations = boxes.find(b => b.name === 'M1C-Conversations')
     assert.ok(boxes.some(b => b.name.startsWith('M1C-Long-folder') && b.name.length > 100))
     const singleton = await provider.get(new URL(origin + `/ocs/v2.php/apps/mail/ocs/mailboxes/${conversations.id}/messages?limit=20&view=singleton`))
