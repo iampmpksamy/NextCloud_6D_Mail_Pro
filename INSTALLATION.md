@@ -32,7 +32,7 @@ bash tests/run-smoke.sh
 python3 scripts/package.py
 ```
 
-Review `tar -tzf build/sixd_mail_pro-0.1.0-dev.1.tar.gz` and verify its adjacent checksum from the build directory using `sha256sum -c`. For later versions use the actual reviewed artifact/version. No tag, GitHub release or stable claim is implied by packaging.
+Review `tar -tzf build/sixd_mail_pro-0.1.0-dev.2.tar.gz` and verify its adjacent checksum from the build directory using `sha256sum -c`. For later versions use the actual reviewed artifact/version. No tag, GitHub release or stable claim is implied by packaging. Increment the app development version for asset changes so Nextcloud generates new cache keys; overwriting the same version can leave browsers or intermediary caches serving old JavaScript/CSS.
 
 ## Future approved fresh install
 
@@ -40,7 +40,7 @@ After the fresh-install guard and explicit production approval, use a new host s
 
 ```bash
 sixd_stage=$(mktemp -d /tmp/sixd-mail-pro-install.XXXXXX)
-tar -xzf build/sixd_mail_pro-0.1.0-dev.1.tar.gz -C "$sixd_stage"
+tar -xzf build/sixd_mail_pro-0.1.0-dev.2.tar.gz -C "$sixd_stage"
 docker exec nextcloud-aio-nextcloud test ! -e /var/www/html/custom_apps/sixd_mail_pro
 docker cp "$sixd_stage/sixd_mail_pro" nextcloud-aio-nextcloud:/var/www/html/custom_apps/
 docker exec nextcloud-aio-nextcloud chown -R www-data:www-data /var/www/html/custom_apps/sixd_mail_pro

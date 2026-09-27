@@ -1,8 +1,11 @@
 # Changelog
 
-## 0.1.0-dev.1 — 2026-09-09 (unreleased, experimental)
+## 0.1.0-dev.2 — 2026-09-27 (internal experimental beta)
 
 - Production UI correction: prefer canonical Inbox over arbitrary server folder order; bound desktop sidebar scrolling, collapse mobile navigation with accessible disclosure/focus handling, and clarify summary-only selection wording. No mail mutations or private sync calls were added.
+- Increment the development version so Nextcloud generates fresh CSS/JavaScript asset URLs. Reusing dev.1 served cached assets despite the updated page template. Compatibility bounds remain unchanged.
+
+## 0.1.0-dev.1 — 2026-09-09 (unreleased, experimental)
 
 - Initialize a standalone authenticated Nextcloud app with Mail availability checks and native Mail navigation.
 - Document inspected AIO environment, Mail state/API boundaries, existing plugin compatibility and publication requirements.

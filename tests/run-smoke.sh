@@ -17,7 +17,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 info = ET.parse('appinfo/info.xml')
 assert info.findtext('id') == 'sixd_mail_pro'
-assert info.findtext('version') == '0.1.0-dev.1'
+assert info.findtext('version') == '0.1.0-dev.2'
 assert info.findtext('version') in Path('CHANGELOG.md').read_text()
 assert json.loads(Path('composer.json').read_text())['license'] == 'AGPL-3.0-or-later'
 ET.parse('img/app.svg')

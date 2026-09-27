@@ -32,7 +32,9 @@ let ws
     const until = async (expression, label) => { for (let i = 0; i < 40; i++) { if (await evaluate(expression)) return; await pause(100) } throw Error('Timed out: ' + label) }
     const click = selector => evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`)
     const ready = () => until(`document.querySelector('[data-ui="messages"]')?.getAttribute('aria-busy') === 'false'`, 'messages settled')
-    const folder = (account, name) => evaluate(`Array.from(document.querySelectorAll('.sixd-account')[${account}].querySelectorAll('.sixd-folder')).find(b => b.firstChild.textContent === ${JSON.stringify(name)}).click()`)
+    // Public account ordering is not fixed; identify the synthetic account by
+    // its address instead of assuming its position in the returned array.
+    const folder = (account, name) => evaluate(`Array.from(Array.from(document.querySelectorAll('.sixd-account')).find(a=>a.querySelector('.sixd-account__address').textContent===${JSON.stringify(['studio@example.invalid', 'personal@example.invalid'][account])}).querySelectorAll('.sixd-folder')).find(b => b.firstChild.textContent === ${JSON.stringify(name)}).click()`)
     await cdp('Page.enable'); await cdp('Network.enable'); await cdp('Runtime.enable'); await cdp('Log.enable')
     if (process.argv.includes('--navigation')) await cdp('Page.addScriptToEvaluateOnNewDocument', { source: `document.addEventListener('DOMContentLoaded',()=>{if(!window.SixdMailOcs)return;const original=SixdMailOcs.OcsMailProvider.prototype.listMailboxes;SixdMailOcs.OcsMailProvider.prototype.listMailboxes=async function(id){return (await original.call(this,id)).sort((a,b)=>Number(a.isInbox)-Number(b.isInbox))}})` })
     await cdp('Page.navigate', { url: origin + '/index.php/apps/sixd_mail_pro/' })

@@ -5,7 +5,7 @@
     <name>6D Mail Pro</name>
     <summary>Experimental foundation for a clearer mail workspace</summary>
     <description>Experimental independent mail workspace with synthetic previews and an opt-in read-only public OCS provider for Mail 5.11.5. Lists accounts, folders and singleton message summaries with Unread/Favorite filters, tag-based Important indicators, pagination and native Mail handoff. Tested with synthetic mail in isolated Nextcloud 33.0.6/PHP 8.3.33. No message actions or body rendering are implemented; production compatibility is not verified.</description>
-    <version>0.1.0-dev.1</version>
+    <version>0.1.0-dev.2</version>
     <licence>agpl</licence>
     <author mail="Maalig@pmpksamy.com" homepage="https://pmpksamy.com/">IAMPMPKSAMY</author>
     <namespace>SixdMailPro</namespace>

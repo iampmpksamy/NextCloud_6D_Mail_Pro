@@ -2,7 +2,7 @@
 
 An independent Nextcloud app for a clearer, more productive mail workspace, with Outlook/Fluent-inspired layout principles and a distinct 6D identity. No Microsoft branding or proprietary assets are included.
 
-**0.1.0-dev.1 — experimental internal read-only beta; no stable public release.** M1B adds a read-only public OCS provider, exercised with synthetic IMAP mail in an isolated Nextcloud instance and subsequently deployed under explicit authorization. The independent workspace lists accounts, folders and message summaries. It does not enhance `/apps/mail` or implement mail actions.
+**0.1.0-dev.2 — experimental internal read-only beta; no stable public release.** M1B adds a read-only public OCS provider, exercised with synthetic IMAP mail in an isolated Nextcloud instance and subsequently deployed under explicit authorization. The independent workspace lists accounts, folders and message summaries. It does not enhance `/apps/mail` or implement mail actions.
 
 The product aims to distinguish unread, Important and Favorite messages immediately, improve multiple-account navigation, and support keyboard use, readable density and native light/dark themes. Unread, Important, Favorite and Focused remain separate concepts.
 
@@ -32,7 +32,7 @@ python3 scripts/package.py
 
 Equivalent Composer aliases: `composer test`, `composer build`. No npm build, package.json, frontend dependencies, vendor install or transpilation is needed for the PHP/CSS scaffold. The frontend uses three plain JS files with no build dependencies. UI labels use Nextcloud translation helpers; sample content is deliberately synthetic.
 
-Build output: `build/sixd_mail_pro-0.1.0-dev.1.tar.gz` and `.sha256`. The archive has the required `sixd_mail_pro/` directory and deterministic timestamps. It is a development artifact, not a production release. Linked engineering documentation accompanies the runtime files.
+Build output: `build/sixd_mail_pro-0.1.0-dev.2.tar.gz` and `.sha256`. The archive has the required `sixd_mail_pro/` directory and deterministic timestamps. It is a development artifact, not a production release. Linked engineering documentation accompanies the runtime files.
 
 Tests exercise fallback behavior, template escaping, all eight state combinations, filters, counts and pagination. If Chrome/Chromium is installed, smoke also runs local browser checks at 390px/1440px in light/dark themes. These fixtures do not boot Nextcloud. Optional manifest XSD validation: `NEXTCLOUD_INFO_XSD=/path/to/info.xsd bash tests/run-smoke.sh`. Obtain the schema from the official Nextcloud app store. See [test plan](docs/TEST_PLAN.md) for outstanding isolated runtime checks.
 
@@ -95,4 +95,4 @@ Do not install this initialization on production. Use a separate Nextcloud 33 de
 
 Repository: [https://github.com/iampmpksamy/NextCloud_6D_Mail_Pro](https://github.com/iampmpksamy/NextCloud_6D_Mail_Pro). Report issues at [https://github.com/iampmpksamy/NextCloud_6D_Mail_Pro/issues](https://github.com/iampmpksamy/NextCloud_6D_Mail_Pro/issues).
 
-Source is published as experimental `0.1.0-dev.1`. No release, production deployment or public Plugins Hub catalog entry is created by this source publication. Installation and usage documentation are available in this repository; no Wiki URL is advertised until its pages are initialized.
+Source is published as experimental `0.1.0-dev.2`. The internal beta deployment is separately authorized; no public release or Plugins Hub catalog entry is created by source publication. Installation and usage documentation are available in this repository; no Wiki URL is advertised until its pages are initialized.

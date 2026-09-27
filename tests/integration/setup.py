@@ -14,6 +14,7 @@ import subprocess
 import tarfile
 import time
 import urllib.request
+import xml.etree.ElementTree as ET
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -150,8 +151,12 @@ def main():
     for account in api('account/list'):
         occ('mail:account:sync', '--force', str(account['id']))
     run(['python3', str(ROOT / 'scripts/package.py')])
-    with tarfile.open(ROOT / 'build/sixd_mail_pro-0.1.0-dev.1.tar.gz') as tar:
+    version = ET.parse(ROOT / 'appinfo/info.xml').findtext('version')
+    with tarfile.open(ROOT / f'build/sixd_mail_pro-{version}.tar.gz') as tar:
         tar.extractall(cache, filter='data')
+    installed = json.loads(occ('app:list', '--output=json', quiet=True))
+    if 'sixd_mail_pro' in installed.get('enabled', {}) and installed['enabled']['sixd_mail_pro'] != version:
+        occ('app:disable', 'sixd_mail_pro')
     install_app(cache / 'sixd_mail_pro', 'sixd_mail_pro')
     occ('config:app:set', 'sixd_mail_pro', 'data_provider', '--value=ocs')
     run(['node', str(HERE / 'browser.cjs'), '--warm-mail'])
