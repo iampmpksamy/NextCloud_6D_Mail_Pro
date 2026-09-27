@@ -93,6 +93,8 @@ The runtime-case script uses `try/finally` to restore the isolated Apache file a
 
 ## Contrast and release-readiness follow-up
 
+Navigation regression: `node tests/integration/browser.cjs --navigation` deliberately puts Inbox last in the provider response, verifies Inbox is selected anyway, adds 100 synthetic folders, and checks independent bounded desktop scrolling. At 390/640px the list remains near the top; Enter opens navigation, folder selection closes it and focuses the list heading, and returning to desktop restores the sidebar. Provider contracts distinguish canonical `INBOX` from localized display labels and misleadingly named other folders.
+
 Run `node tests/integration/browser.cjs --contrast` after the normal authenticated browser suite. It reuses the isolated instance and tests native light/dark message and server-error/recovery states. It measures visible direct text plus focused-control text, and keyboard focus on every visible enabled app button/link. Browser canvas resolves colors to sRGB, including the unread row's color mix; solid ancestor backgrounds are alpha-composited. Unsupported background images, opacity, filters or blending fail the measurement instead of producing an assumed pass. Disabled controls and decorative/hidden text are excluded.
 
 Thresholds follow W3C's [text contrast guidance](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum) (4.5:1 normal, 3:1 large) and [non-text contrast guidance](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast) (3:1). The focus calculation is specific to the current inset outline, not a general-purpose accessibility scanner. It does not evaluate screenshots, custom themes, every hover state, every possible color customization or screen-reader speech.

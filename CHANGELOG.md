@@ -2,6 +2,8 @@
 
 ## 0.1.0-dev.1 — 2026-09-09 (unreleased, experimental)
 
+- Production UI correction: prefer canonical Inbox over arbitrary server folder order; bound desktop sidebar scrolling, collapse mobile navigation with accessible disclosure/focus handling, and clarify summary-only selection wording. No mail mutations or private sync calls were added.
+
 - Initialize a standalone authenticated Nextcloud app with Mail availability checks and native Mail navigation.
 - Document inspected AIO environment, Mail state/API boundaries, existing plugin compatibility and publication requirements.
 - Add local fallback/escaping checks and deterministic packaging.

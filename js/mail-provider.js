@@ -57,6 +57,7 @@
 
         async listMailboxes(accountId) {
             return this.mailboxes.filter(box => box.accountId === accountId).map(box => ({ ...box,
+                isInbox: box.name === 'Inbox',
                 unread: this.messages.filter(message => message.mailboxId === box.id && states(message).unread).length,
             }))
         }

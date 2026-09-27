@@ -22,6 +22,27 @@
         let mailboxId = null, filter = 'all', cursors = [null], nextCursor = null, request = 0
         let selectedId = null
         const folderButtons = new Map()
+        const narrow = window.matchMedia('(max-width: 640px)')
+        const navigationToggle = find('nav-toggle')
+        let navigationOpen = false
+        function updateNavigation() {
+            navigationToggle.hidden = !narrow.matches
+            find('sidebar').hidden = narrow.matches && !navigationOpen
+            navigationToggle.setAttribute('aria-expanded', String(!find('sidebar').hidden))
+        }
+        navigationToggle.addEventListener('click', () => {
+            navigationOpen = !navigationOpen
+            updateNavigation()
+        })
+        narrow.addEventListener('change', () => {
+            const focusInNavigation = find('sidebar').contains(document.activeElement)
+            const focusOnToggle = document.activeElement === navigationToggle
+            navigationOpen = false
+            updateNavigation()
+            if (narrow.matches && focusInNavigation) navigationToggle.focus()
+            else if (!narrow.matches && focusOnToggle) find('folder-title').focus()
+        })
+        updateNavigation()
         const dateFormat = new Intl.DateTimeFormat(document.documentElement.lang || undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })
 
         const handoff = root.querySelector('.sixd-reading .sixd-mail-link')
@@ -52,7 +73,7 @@
         function clearSelection() {
             selectedId = null
             if (handoff) handoff.setAttribute('href', defaultHandoff)
-            find('selection-title').textContent = translate('Select a message to read')
+            find('selection-title').textContent = translate('Select a message for its summary')
             find('selection-sender').textContent = ''
             find('selection-note').textContent = translate(ocs ? 'Select a message to see its summary. Message bodies are not loaded.' : 'Choose a sample to preview its details. Message bodies stay private in Nextcloud Mail.')
         }
@@ -137,6 +158,7 @@
             mailboxId = null
             previous.disabled = next.disabled = true
             list.setAttribute('aria-busy', 'true')
+            status.textContent = translate('Loading accounts and folders…')
             const accounts = await provider.listAccounts()
             if (!accounts.length) {
                 status.textContent = translate('No mail accounts are configured for this user.')
@@ -158,7 +180,10 @@
                     find('accounts').append(group)
                     continue
                 }
-                for (const folder of mailboxes) {
+                // Use the canonical IMAP Inbox identity, not a translated label or
+                // arbitrary server ordering (which can put Junk/Trash first).
+                const ordered = [...mailboxes].sort((a, b) => Number(b.isInbox === true) - Number(a.isInbox === true))
+                for (const folder of ordered) {
                     if (mailboxId === null) {
                         mailboxId = folder.id
                         folderUrl = folder.nativeMailUrl ?? null
@@ -176,6 +201,11 @@
                         folderUrl = folder.nativeMailUrl ?? null
                         find('folder-title').textContent = `${account.name} · ${translate(folder.name)}`
                         for (const [id, node] of folderButtons) node.setAttribute('aria-current', String(id === mailboxId))
+                        if (narrow.matches) {
+                            navigationOpen = false
+                            updateNavigation()
+                            find('folder-title').focus()
+                        }
                         load()
                     })
                     group.append(button)

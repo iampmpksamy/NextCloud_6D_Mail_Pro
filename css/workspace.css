@@ -26,7 +26,8 @@
 #sixd-mail-pro .sixd-header h2 { font-size: 26px; line-height: 1.4; font-weight: 700; }
 #sixd-mail-pro .sixd-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .08em; line-height: 1.6; overflow-wrap: anywhere; }
 #sixd-mail-pro .sixd-workspace { display: grid; grid-template-columns: 220px minmax(320px, 1.2fr) minmax(240px, 1fr); min-height: 680px; }
-#sixd-mail-pro .sixd-sidebar { padding: 24px 12px; border-inline-end: 1px solid var(--sixd-border); background: var(--sixd-soft); }
+#sixd-mail-pro .sixd-sidebar { padding: 24px 12px; border-inline-end: 1px solid var(--sixd-border); background: var(--sixd-soft); align-self: start; position: sticky; top: 0; max-height: max(240px, calc(100dvh - 180px)); overflow-y: auto; }
+#sixd-mail-pro .sixd-nav-toggle { min-height: 44px; margin: 12px 18px 0; padding: 8px 14px; border: 1px solid var(--sixd-border); border-radius: 8px; background: var(--sixd-bg); }
 #sixd-mail-pro .sixd-sidebar > h2 { padding-inline: 10px; font-size: 16px; font-weight: 700; }
 #sixd-mail-pro .sixd-account { margin-top: 28px; }
 #sixd-mail-pro .sixd-account h3 { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-inline: 10px; font-size: 14px; font-weight: 700; overflow-wrap: anywhere; }
@@ -77,7 +78,7 @@
     #sixd-mail-pro .sixd-header { padding: 18px; display: block; }
     #sixd-mail-pro .sixd-header > p { margin-top: 8px; }
     #sixd-mail-pro .sixd-workspace { display: block; }
-    #sixd-mail-pro .sixd-sidebar { padding: 16px; border-bottom: 1px solid var(--sixd-border); }
+    #sixd-mail-pro .sixd-sidebar { padding: 16px; border-bottom: 1px solid var(--sixd-border); position: static; max-height: min(420px, 55dvh); }
     #sixd-mail-pro [data-ui="accounts"] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     #sixd-mail-pro .sixd-account { margin-top: 18px; }
     #sixd-mail-pro .sixd-account h3 { flex-wrap: wrap; }

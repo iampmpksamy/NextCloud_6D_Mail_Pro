@@ -34,6 +34,7 @@ let ws
     const ready = () => until(`document.querySelector('[data-ui="messages"]')?.getAttribute('aria-busy') === 'false'`, 'messages settled')
     const folder = (account, name) => evaluate(`Array.from(document.querySelectorAll('.sixd-account')[${account}].querySelectorAll('.sixd-folder')).find(b => b.firstChild.textContent === ${JSON.stringify(name)}).click()`)
     await cdp('Page.enable'); await cdp('Network.enable'); await cdp('Runtime.enable'); await cdp('Log.enable')
+    if (process.argv.includes('--navigation')) await cdp('Page.addScriptToEvaluateOnNewDocument', { source: `document.addEventListener('DOMContentLoaded',()=>{if(!window.SixdMailOcs)return;const original=SixdMailOcs.OcsMailProvider.prototype.listMailboxes;SixdMailOcs.OcsMailProvider.prototype.listMailboxes=async function(id){return (await original.call(this,id)).sort((a,b)=>Number(a.isInbox)-Number(b.isInbox))}})` })
     await cdp('Page.navigate', { url: origin + '/index.php/apps/sixd_mail_pro/' })
     await until(`document.querySelector('#user') && document.querySelector('#password')`, 'login redirect')
     await evaluate(`(() => { for (const [key,value] of Object.entries(${JSON.stringify({ user: process.argv.includes('--no-accounts') ? 'fixture-outsider' : 'fixture-user', password })})) { const e=document.getElementById(key); e.value=value; e.dispatchEvent(new Event('input',{bubbles:true})); e.dispatchEvent(new Event('change',{bubbles:true})); } document.querySelector('form').requestSubmit(); })()`)
@@ -109,6 +110,37 @@ let ws
         assert.ok(await evaluate(`location.pathname.startsWith('/index.php/apps/sixd_mail_pro') && document.querySelector('.sixd-mail-link').getAttribute('href').includes('/index.php/apps/mail/')`))
         assert.ok(requests.every(r=>new URL(r.url).origin===origin))
         console.log('M1C index.php entry and current-origin generated routing passed on', origin)
+        return
+    }
+    if (process.argv.includes('--navigation')) {
+        assert.equal(await evaluate(`document.querySelector('.sixd-folder[aria-current=true]').firstChild.textContent`), 'INBOX', 'Default selection must prefer Inbox even when provider returns it last')
+        await cdp('Emulation.setDeviceMetricsOverride', { width:1440, height:1000, deviceScaleFactor:1, mobile:false })
+        await evaluate(`(()=>{const account=document.querySelector('.sixd-account');for(let i=0;i<100;i++){const b=document.createElement('button');b.className='sixd-folder';b.textContent='Synthetic overflow folder '+i;account.append(b)}document.getElementById('sixd-mail-pro').scrollTop=0})()`)
+        assert.ok(await evaluate(`(()=>{const s=document.querySelector('.sixd-sidebar');return s.clientHeight<=820 && s.scrollHeight>s.clientHeight})()`), 'Desktop sidebar must have bounded independent scrolling')
+        const top=await evaluate(`document.querySelector('.sixd-list').getBoundingClientRect().top`)
+        await evaluate(`document.querySelector('.sixd-sidebar').scrollTop=200`)
+        assert.equal(await evaluate(`document.querySelector('.sixd-list').getBoundingClientRect().top`),top)
+        assert.ok(await evaluate(`document.querySelector('.sixd-sidebar').scrollTop>0`))
+        for(const width of [390,640]) {
+            await cdp('Emulation.setDeviceMetricsOverride', { width, height:1000, deviceScaleFactor:1, mobile:false })
+            await pause(150)
+            await evaluate(`document.getElementById('sixd-mail-pro').scrollTop=0`)
+            // A width change within the narrow breakpoint preserves the closed state.
+            assert.equal(await evaluate(`document.querySelector('[data-ui=sidebar]').hidden`),true)
+            assert.ok(await evaluate(`document.querySelector('.sixd-list').getBoundingClientRect().top<400`), 'Messages stay near top with many accounts/folders')
+            await evaluate(`document.querySelector('[data-ui=nav-toggle]').focus()`)
+            await cdp('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13,text:'\r'})
+            await cdp('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13})
+            assert.equal(await evaluate(`document.querySelector('[data-ui=nav-toggle]').getAttribute('aria-expanded')`),'true')
+            assert.ok(await evaluate(`!document.querySelector('[data-ui=sidebar]').hidden && document.querySelector('.sixd-sidebar').clientHeight<=420`))
+            await folder(0,'Empty');await ready()
+            assert.equal(await evaluate(`document.querySelector('[data-ui=sidebar]').hidden`),true)
+            assert.equal(await evaluate(`document.activeElement===document.querySelector('[data-ui=folder-title]')`),true)
+        }
+        await cdp('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});await pause(150)
+        assert.equal(await evaluate(`document.querySelector('[data-ui=sidebar]').hidden`),false)
+        assert.equal(await evaluate(`document.querySelector('[data-ui=nav-toggle]').hidden`),true)
+        console.log('Navigation passed: Inbox-first independent of provider ordering, desktop independent scroll, mobile collapsed/bounded navigation, keyboard disclosure, focus after selection and breakpoint restoration.')
         return
     }
     if (process.argv.includes('--contrast')) {

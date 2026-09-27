@@ -55,6 +55,7 @@
             return array(await this.get(url)).map(box => {
                 if (id(box.accountId) !== accountId) fail()
                 const mailbox = { id: id(box.databaseId), accountId, name: string(box.displayName ?? box.name),
+                    isInbox: typeof box.name === 'string' && box.name.toUpperCase() === 'INBOX',
                     unread: Number.isSafeInteger(box.unread) && box.unread >= 0 ? box.unread : null,
                     nativeMailUrl: this.nativeFolderUrl ? this.url(this.nativeFolderUrl, { '__mailbox__': box.databaseId }).toString() : null }
                 this.mailboxes.set(mailbox.id, mailbox)

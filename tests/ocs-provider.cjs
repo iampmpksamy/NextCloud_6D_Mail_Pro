@@ -19,6 +19,12 @@ const success = data => ({ ok: true, json: async () => ({ ocs: { meta: { statusc
     assert.equal((await provider.listAccounts())[0].unread, null)
     const mailbox = (await provider.listMailboxes(1))[0]
     assert.equal(mailbox.unread, 8)
+    assert.equal(mailbox.isInbox, true)
+    const localized = new OcsMailProvider({ ...options, fetcher: async () => success([
+        { databaseId: 2, accountId: 1, name: 'INBOX.Junk', displayName: 'Inbox', unread: 0 },
+        { databaseId: 1, accountId: 1, name: 'INBOX', displayName: 'Boîte de réception', unread: 1 },
+    ]) })
+    assert.deepEqual((await localized.listMailboxes(1)).map(b => b.isInbox), [false, true], 'Canonical Inbox identity must ignore localized/display labels')
     assert.equal(mailbox.nativeMailUrl, origin + '/index.php/apps/mail/box/1')
     let cursor = null; const result = []
     do {

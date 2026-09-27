@@ -16,15 +16,16 @@ script('sixd_mail_pro', ['mail-provider', 'ocs-provider', 'workspace']);
         <div><p class="sixd-eyebrow" data-ui="mode-label"><?php p($l->t('SYNTHETIC WORKSPACE · READ ONLY')); ?></p><h2>6D Mail Pro</h2></div>
         <p><?php p($l->t('A little clarity for everything in your inbox.')); ?></p>
     </header>
+    <button type="button" class="sixd-nav-toggle" data-ui="nav-toggle" aria-controls="sixd-folders" aria-expanded="false" hidden><?php p($l->t('Accounts and folders')); ?></button>
     <div class="sixd-workspace">
-        <nav data-ui="sidebar" class="sixd-sidebar" aria-label="<?php p($l->t('Sample accounts and folders')); ?>">
+        <nav id="sixd-folders" data-ui="sidebar" class="sixd-sidebar" aria-label="<?php p($l->t('Sample accounts and folders')); ?>">
             <h2><?php p($l->t('Your accounts')); ?></h2>
             <div data-ui="accounts"></div>
             <p data-ui="count-note" class="sixd-sidebar__note"><?php p($l->t('Demo data only. Counts describe synthetic folders, not your real mailbox.')); ?></p>
         </nav>
         <section class="sixd-list" aria-labelledby="sixd-folder-title">
             <header class="sixd-list__header">
-                <h2 id="sixd-folder-title" data-ui="folder-title"><?php p($l->t('Inbox')); ?></h2>
+                <h2 id="sixd-folder-title" data-ui="folder-title" tabindex="-1"><?php p($l->t('Inbox')); ?></h2>
                 <div class="sixd-filters" role="group" aria-label="<?php p($l->t('Filter sample messages')); ?>">
                     <?php foreach (['all' => 'All', 'unread' => 'Unread', 'important' => 'Important', 'favorite' => 'Favorite'] as $key => $label): ?>
                         <button type="button" data-filter="<?php p($key); ?>" aria-pressed="<?php p($key === 'all' ? 'true' : 'false'); ?>"><?php p($l->t($label)); ?></button>
@@ -49,7 +50,7 @@ script('sixd_mail_pro', ['mail-provider', 'ocs-provider', 'workspace']);
                 <span class="sixd-reading__icon" aria-hidden="true">✉</span>
                 <div aria-live="polite">
                     <p data-ui="selection-sender" class="sixd-eyebrow"></p>
-                    <h2 data-ui="selection-title"><?php p($l->t('Select a message to read')); ?></h2>
+                    <h2 data-ui="selection-title"><?php p($l->t('Select a message for its summary')); ?></h2>
                     <p data-ui="selection-note"><?php p($l->t('Choose a sample to preview its details. Message bodies stay private in Nextcloud Mail.')); ?></p>
                 </div>
                 <?php if ($_['mailUrl'] !== null): ?>

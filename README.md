@@ -2,7 +2,7 @@
 
 An independent Nextcloud app for a clearer, more productive mail workspace, with Outlook/Fluent-inspired layout principles and a distinct 6D identity. No Microsoft branding or proprietary assets are included.
 
-**0.1.0-dev.1 — experimental, not released or deployed.** M1B adds a read-only public OCS provider, exercised with synthetic IMAP mail in an isolated Nextcloud instance. The independent workspace lists accounts, folders and message summaries. It does not enhance `/apps/mail` or implement mail actions.
+**0.1.0-dev.1 — experimental internal read-only beta; no stable public release.** M1B adds a read-only public OCS provider, exercised with synthetic IMAP mail in an isolated Nextcloud instance and subsequently deployed under explicit authorization. The independent workspace lists accounts, folders and message summaries. It does not enhance `/apps/mail` or implement mail actions.
 
 The product aims to distinguish unread, Important and Favorite messages immediately, improve multiple-account navigation, and support keyboard use, readable density and native light/dark themes. Unread, Important, Favorite and Focused remain separate concepts.
 
@@ -76,6 +76,8 @@ Mail's account sync skips ordinary folders until their caches are initialized. S
 M1C keeps the UI in singleton mode: the tested threaded response represents only each conversation’s newest message and provides no aggregate states/counts. Delegated/read-only grants are not proven through the inspected public API. Automated keyboard/ARIA, forced-colors/reduced-motion and six-width/zoom checks are included; manual accessibility and production acceptance remain pending.
 
 Run `node tests/integration/browser.cjs --contrast` to measure text and keyboard-focus contrast on the existing isolated instance in native light/dark message and error/retry states. This checks solid-color surfaces and excludes disabled/decorative content; it does not certify screen-reader usability or arbitrary custom themes.
+
+Navigation opens the first accessible account's canonical Inbox when available, with the first returned folder as a fallback. Desktop folders scroll independently. At mobile widths, use “Accounts and folders” to open bounded navigation; choosing a folder closes it and moves focus to the list heading. Uncached folders still require native Mail initialization through the existing handoff and Retry.
 
 OCS mode provides server-side All/Unread/Favorite filtering, authoritative folder unread counts and finite cursor pagination. Account totals are unavailable and shown as `—`. Important **row indicators** use `$label1` tags; the Important filter is disabled because the legacy server importance flag is not proven equivalent for every mailbox. Selection displays summary text only. Its generated Open in Mail link may mark the message read when the user opens it in native Mail.
 
