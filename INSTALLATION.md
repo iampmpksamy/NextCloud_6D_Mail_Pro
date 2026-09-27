@@ -1,6 +1,6 @@
 # Installation and future AIO deployment
 
-**Prompt 01 is not deployed. The following production procedure is a future runbook, not authorization to execute it.** Test in a separate Nextcloud 33/PHP 8.3 environment with synthetic mail first. Do not mount production volumes into a test instance.
+**6D Mail Pro remains experimental and is not deployed in production. The following production procedure is a future runbook, not authorization to execute it.** The read-only provider has been tested in isolation with synthetic mail; see [validation evidence and remaining gates](docs/VALIDATION.md). Test in a separate Nextcloud 33/PHP 8.3 environment first. Do not mount production volumes into a test instance.
 
 ## Development installation
 

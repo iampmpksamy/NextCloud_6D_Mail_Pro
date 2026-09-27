@@ -1,6 +1,6 @@
 # Support
 
-6D Mail Pro is an unreleased development scaffold. Runtime integration is not yet verified.
+6D Mail Pro is an unreleased experimental mail workspace. Read-only integration has been tested with synthetic mail in isolated Nextcloud 33.0.6 / PHP 8.3.33 / Mail 5.11.5. Production compatibility is not verified. See [validation evidence and remaining limits](docs/VALIDATION.md).
 
 Verified author contact: [Maalig@pmpksamy.com](mailto:Maalig@pmpksamy.com), [IAMPMPKSAMY](https://pmpksamy.com/).
 

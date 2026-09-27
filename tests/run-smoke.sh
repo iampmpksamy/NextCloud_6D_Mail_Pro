@@ -3,12 +3,14 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 while IFS= read -r -d '' file; do
     php -l "$file" >/dev/null
-done < <(find appinfo lib templates tests -name '*.php' -print0)
-php tests/compatibility.php
+done < <(find appinfo lib templates tests -path 'tests/integration/.cache' -prune -o -name '*.php' -print0)
+php tests/routes.php
 php tests/template.php
 node --check js/mail-provider.js
 node --check js/workspace.js
+node --check js/ocs-provider.js
 node tests/provider.cjs
+node tests/ocs-provider.cjs
 python3 - <<'PY'
 import json
 import xml.etree.ElementTree as ET

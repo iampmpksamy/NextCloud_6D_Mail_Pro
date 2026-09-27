@@ -4,18 +4,23 @@
 /** @var array $_ */
 /** @var \OCP\IL10N $l */
 style('sixd_mail_pro', 'workspace');
-script('sixd_mail_pro', ['mail-provider', 'workspace']);
+script('sixd_mail_pro', ['mail-provider', 'ocs-provider', 'workspace']);
 ?>
-<div id="sixd-mail-pro">
+<div id="sixd-mail-pro" data-provider="<?php p($_['provider'] ?? 'synthetic'); ?>"
+    data-ocs-accounts="<?php p($_['ocsAccounts'] ?? ''); ?>"
+    data-ocs-mailboxes="<?php p($_['ocsMailboxes'] ?? ''); ?>"
+    data-ocs-messages="<?php p($_['ocsMessages'] ?? ''); ?>"
+    data-native-message-url="<?php p($_['nativeMessageUrl'] ?? ''); ?>"
+    data-native-folder-url="<?php p($_['nativeFolderUrl'] ?? ''); ?>">
     <header class="sixd-header">
-        <div><p class="sixd-eyebrow"><?php p($l->t('SYNTHETIC WORKSPACE · READ ONLY')); ?></p><h2>6D Mail Pro</h2></div>
+        <div><p class="sixd-eyebrow" data-ui="mode-label"><?php p($l->t('SYNTHETIC WORKSPACE · READ ONLY')); ?></p><h2>6D Mail Pro</h2></div>
         <p><?php p($l->t('A little clarity for everything in your inbox.')); ?></p>
     </header>
     <div class="sixd-workspace">
-        <nav class="sixd-sidebar" aria-label="<?php p($l->t('Sample accounts and folders')); ?>">
+        <nav data-ui="sidebar" class="sixd-sidebar" aria-label="<?php p($l->t('Sample accounts and folders')); ?>">
             <h2><?php p($l->t('Your accounts')); ?></h2>
             <div data-ui="accounts"></div>
-            <p class="sixd-sidebar__note"><?php p($l->t('Demo data only. Counts describe synthetic folders, not your real mailbox.')); ?></p>
+            <p data-ui="count-note" class="sixd-sidebar__note"><?php p($l->t('Demo data only. Counts describe synthetic folders, not your real mailbox.')); ?></p>
         </nav>
         <section class="sixd-list" aria-labelledby="sixd-folder-title">
             <header class="sixd-list__header">
@@ -25,16 +30,17 @@ script('sixd_mail_pro', ['mail-provider', 'workspace']);
                         <button type="button" data-filter="<?php p($key); ?>" aria-pressed="<?php p($key === 'all' ? 'true' : 'false'); ?>"><?php p($l->t($label)); ?></button>
                     <?php endforeach; ?>
                 </div>
-                <p class="sixd-list__caption"><?php p($l->t('Newest first · Sample timestamps in UTC')); ?></p>
+                <p data-ui="list-caption" class="sixd-list__caption"><?php p($l->t('Newest first · Sample timestamps in UTC')); ?></p>
             </header>
             <div class="sixd-feedback">
-                <p data-ui="status" role="status" aria-live="polite"><?php p($l->t('Loading sample messages…')); ?></p>
+                <p id="sixd-load-status" data-ui="status" role="status" aria-live="polite"><?php p($l->t('Loading sample messages…')); ?></p>
+                <a data-ui="folder-handoff" class="sixd-folder-link" hidden target="_blank" rel="noopener noreferrer"><?php p($l->t('Open folder in Nextcloud Mail')); ?></a>
                 <button type="button" data-ui="retry" hidden><?php p($l->t('Retry')); ?></button>
             </div>
-            <ul class="sixd-messages" data-ui="messages" aria-label="<?php p($l->t('Sample messages')); ?>" aria-busy="true"></ul>
+            <ul class="sixd-messages" data-ui="messages" aria-describedby="sixd-load-status" aria-label="<?php p($l->t('Sample messages')); ?>" aria-busy="true"></ul>
             <nav class="sixd-pagination" aria-label="<?php p($l->t('Message pages')); ?>">
                 <button type="button" data-ui="previous" disabled><?php p($l->t('Previous')); ?></button>
-                <span data-ui="page">—</span>
+                <span data-ui="page" role="status" aria-live="polite">—</span>
                 <button type="button" data-ui="next" disabled><?php p($l->t('Next')); ?></button>
             </nav>
         </section>
@@ -48,9 +54,9 @@ script('sixd_mail_pro', ['mail-provider', 'workspace']);
                 </div>
                 <?php if ($_['mailUrl'] !== null): ?>
                     <a class="sixd-mail-link" href="<?php p($_['mailUrl']); ?>"><?php p($l->t('Open in Nextcloud Mail')); ?></a>
-                    <p class="sixd-hint"><?php p($l->t('Opens native Mail. Synthetic messages do not exist there.')); ?></p>
+                    <p data-ui="handoff-note" class="sixd-hint"><?php p($l->t('Opens native Mail. Synthetic messages do not exist there.')); ?></p>
                 <?php else: ?>
-                    <p><?php p($l->t('Native Mail is currently unavailable. You can still explore this synthetic workspace.')); ?></p>
+                    <p><?php p($l->t(($_['provider'] ?? 'synthetic') === 'unavailable' ? 'Native Mail is currently unavailable.' : 'Native Mail is currently unavailable. You can still explore this synthetic workspace.')); ?></p>
                 <?php endif; ?>
                 <?php if ($_['status'] === 'unverified'): ?>
                     <p class="sixd-hint"><?php p($l->t('Your Mail version has not been verified for integration.')); ?></p>
@@ -58,5 +64,5 @@ script('sixd_mail_pro', ['mail-provider', 'workspace']);
             </div>
         </aside>
     </div>
-    <noscript><p><?php p($l->t('Enable JavaScript to explore the synthetic workspace.')); ?></p></noscript>
+    <noscript><p><?php p($l->t('Enable JavaScript to use the mail workspace.')); ?></p></noscript>
 </div>

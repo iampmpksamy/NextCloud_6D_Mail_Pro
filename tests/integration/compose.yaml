@@ -1,0 +1,43 @@
+name: sixd-mail-test
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: sixd-mail-test-db
+    environment:
+      POSTGRES_DB: sixd
+      POSTGRES_USER: sixd
+      POSTGRES_PASSWORD: ${TEST_PASSWORD:?Run setup.py first}
+    volumes: [database:/var/lib/postgresql/data]
+    networks: [isolated]
+  mail:
+    image: greenmail/standalone:2.1.13
+    container_name: sixd-mail-test-mail
+    environment:
+      GREENMAIL_OPTS: >-
+        -Dgreenmail.setup.test.smtp -Dgreenmail.setup.test.imap
+        -Dgreenmail.hostname=0.0.0.0
+        -Dgreenmail.users=studio:${TEST_PASSWORD}@example.invalid,personal:${TEST_PASSWORD}@example.invalid
+    networks: [isolated]
+  nextcloud:
+    build: .
+    image: sixd-mail-test-nextcloud:33.0.6-php8.3
+    container_name: sixd-mail-test-nextcloud
+    ports: ["127.0.0.1:18764:80"]
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: sixd
+      POSTGRES_USER: sixd
+      POSTGRES_PASSWORD: ${TEST_PASSWORD}
+      NEXTCLOUD_ADMIN_USER: fixture-admin
+      NEXTCLOUD_ADMIN_PASSWORD: ${TEST_PASSWORD}
+      NEXTCLOUD_TRUSTED_DOMAINS: localhost 127.0.0.1
+    volumes: [nextcloud:/var/www/html]
+    networks: [isolated, frontend]
+    depends_on: [db, mail]
+networks:
+  frontend:
+  isolated:
+    internal: true
+volumes:
+  database:
+  nextcloud:
