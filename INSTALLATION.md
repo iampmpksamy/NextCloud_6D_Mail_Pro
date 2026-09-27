@@ -1,6 +1,6 @@
 # Installation and future AIO deployment
 
-**6D Mail Pro remains experimental and is not deployed in production. The following production procedure is a future runbook, not authorization to execute it.** The read-only provider has been tested in isolation with synthetic mail; see [validation evidence and remaining gates](docs/VALIDATION.md). Test in a separate Nextcloud 33/PHP 8.3 environment first. Do not mount production volumes into a test instance.
+**6D Mail Pro remains experimental and is not a stable release. An explicitly authorized internal read-only beta deployment was completed on 2026-09-27; the procedure below remains a controlled runbook, not standing authorization for future deployments.** The deployed artifact and evidence are recorded in [validation evidence and remaining gates](docs/VALIDATION.md). Test in a separate Nextcloud 33/PHP 8.3 environment first. Do not mount production volumes into a test instance.
 
 ## Development installation
 

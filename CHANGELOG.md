@@ -14,5 +14,6 @@
 - Test threaded representatives and preserve singleton semantics; record the public delegation provisioning gap. Extend keyboard, ARIA, stale-response, six-width/theme, forced-colors, reduced-motion, zoom and route/version checks.
 - Message actions, content rendering and production deployment remain unimplemented.
 - Acceptance follow-up: fix selected-filter keyboard focus contrast under Nextcloud's core input styles; add measured native light/dark text/focus checks and align manifest/support/install wording with isolated read-only results.
+- Internal beta deployment (2026-09-27): deployed the exact committed artifact to persistent AIO storage, enabled the app with `data_provider=ocs`, and passed same-origin read-only checks through both production origins. One origin encountered the documented uncached-folder recovery state; no force-sync or message handoff was performed.
 
 Adjacent apps use numeric semver versions but provide no shared prerelease policy. The explicit `-dev.1` suffix is a new project choice accepted by the Nextcloud manifest schema; `0.1.0` denotes the first incomplete development milestone, not production readiness.
